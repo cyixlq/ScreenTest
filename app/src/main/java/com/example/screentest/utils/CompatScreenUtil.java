@@ -68,11 +68,12 @@ public class CompatScreenUtil {
      * @param res 未修改过的resources
      * @param designHeight 设计图上的高度，如果适配单位为dp，此高度也需要转换成dp，否则传入px单位高度即可
      * @param unit 要适配的单位
-     * @param includeNavBar 传入的高度的值是否包含了底部导航栏，如果包含了，那么将减去导航栏高度再进行适配
+     * @param includeNavBar 传入的高度的值是否包含了底部导航栏
      * @return 适配后的resources
      */
     public static Resources compatHeight(final Resources res, final int designHeight, final Unit unit, boolean includeNavBar) {
-        final int height = res.getDisplayMetrics().heightPixels - (includeNavBar ? getNavBarHeight(res) : 0);
+        // 如果包含了导航栏，那么获取的heightPixels是减去了导航栏高度的，所以要得到真实设备高度就需要加上导航栏高度
+        final int height = res.getDisplayMetrics().heightPixels + (includeNavBar ? getNavBarHeight(res) : 0);
         convertToUnitHandler(res, height, designHeight, unit, false);
         return res;
     }
