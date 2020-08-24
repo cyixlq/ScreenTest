@@ -124,7 +124,7 @@ public class CompatScreenUtil {
 
 
     // 返回导航栏高度，单位px
-    private static int getNavBarHeight(final Resources resources) {
+    public static int getNavBarHeight(final Resources resources) {
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId != 0) {
             return resources.getDimensionPixelSize(resourceId);
