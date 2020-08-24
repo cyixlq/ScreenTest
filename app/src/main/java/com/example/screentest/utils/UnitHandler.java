@@ -39,10 +39,16 @@ public abstract class UnitHandler {
 
         @Override
         public void apply(DisplayMetrics dm) {
-            if (isClose)
+            if (isClose) {
+                dm.scaledDensity = Resources.getSystem().getDisplayMetrics().scaledDensity;
                 dm.density = Resources.getSystem().getDisplayMetrics().density;
-            else
-                dm.density = (float) origin / design;
+                dm.densityDpi = Resources.getSystem().getDisplayMetrics().densityDpi;
+            } else {
+                final float targetDensity = (float) origin / design;
+                dm.scaledDensity = targetDensity * (dm.scaledDensity / dm.density);
+                dm.density = targetDensity;
+                dm.densityDpi = (int) targetDensity * 160;
+            }
         }
     }
 }

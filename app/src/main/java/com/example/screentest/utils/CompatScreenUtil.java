@@ -44,7 +44,7 @@ public class CompatScreenUtil {
      *  以宽度这一维度适配
      * @param res 未修改过的resources
      * @param designWidth 设计图上的宽度，如果适配单位为dp，此宽度也需要转换成dp，否则传入px单位宽度即可
-     * @param unit 要适配的单位
+     * @param unit 要适配的单位，如果以dp适配也会适配sp
      * @return 适配后的resources
      */
     public static Resources compatWidth(final Resources res, final int designWidth, final Unit unit) {
@@ -56,7 +56,7 @@ public class CompatScreenUtil {
      *  以高度这一维度适配
      * @param res 未修改过的resources
      * @param designHeight 设计图上的高度，如果适配单位为dp，此高度也需要转换成dp，否则传入px单位高度即可
-     * @param unit 要适配的单位
+     * @param unit 要适配的单位，如果以dp适配也会适配sp
      * @return 适配后的resources
      */
     public static Resources compatHeight(final Resources res, final int designHeight, final Unit unit) {
@@ -67,8 +67,8 @@ public class CompatScreenUtil {
      *  以高度这一维度适配
      * @param res 未修改过的resources
      * @param designHeight 设计图上的高度，如果适配单位为dp，此高度也需要转换成dp，否则传入px单位高度即可
-     * @param unit 要适配的单位
-     * @param includeNavBar 传入的高度的值是否包含了底部导航栏
+     * @param unit 要适配的单位，如果以dp适配也会适配sp
+     * @param includeNavBar 传入的高度的值是否包含了底部导航栏，如果包含了，那么将加上导航栏高度再进行适配
      * @return 适配后的resources
      */
     public static Resources compatHeight(final Resources res, final int designHeight, final Unit unit, boolean includeNavBar) {
@@ -136,7 +136,7 @@ public class CompatScreenUtil {
     private static void applyOtherDisplayMetrics(final Resources resources, UnitHandler... handlers) {
         if (sMetricsFields == null) {
             sMetricsFields = new ArrayList<>();
-            Class resCls = resources.getClass();
+            Class<?> resCls = resources.getClass();
             Field[] declaredFields = resCls.getDeclaredFields();
             while (declaredFields.length > 0) {
                 for (Field field : declaredFields) {
