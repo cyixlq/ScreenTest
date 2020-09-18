@@ -1,2 +1,3 @@
+include ':compat_screen'
 include ':app'
 rootProject.name = "屏幕适配测试"

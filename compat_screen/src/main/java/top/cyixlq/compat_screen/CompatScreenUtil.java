@@ -1,4 +1,4 @@
-package com.example.screentest.utils;
+package top.cyixlq.compat_screen;
 
 import android.app.Application;
 import android.content.res.Resources;
@@ -79,11 +79,21 @@ public class CompatScreenUtil {
     }
 
     /**
-     * @param resources The resources.
-     * @return the resource
+     * 关闭全部适配单位
+     * @return 系统的Resources，即为未适配过的
      */
-    public static Resources closeCompat(final Resources resources) {
-        convertToUnitHandler(resources, 0, 0, null, true);
+    public static Resources closeCompat() {
+        return Resources.getSystem();
+    }
+
+    /**
+     *  关闭特定单位的适配
+     * @param resources 适配过后的Resources
+     * @param unit 要关闭的适配单位
+     * @return 关闭某个适配单位后的Resources
+     */
+    public static Resources closeCompat(Resources resources, Unit unit) {
+        convertToUnitHandler(resources, 0, 0, unit, true);
         return resources;
     }
 
@@ -98,28 +108,20 @@ public class CompatScreenUtil {
      */
     private static void convertToUnitHandler(final Resources resources, final int origin,
                                           final int design, final Unit unit, boolean isClose) {
-        if (isClose) {
-            applyDisplayMetrics(resources,
-                    new UnitHandler.DP(0, 0, true),
-                    new UnitHandler.PT(0, 0, true));
-            return;
-        }
         switch (unit) {
             case DP:
-                applyDisplayMetrics(resources, new UnitHandler.DP(origin, design, false));
+                applyDisplayMetrics(resources, new UnitHandler.DP(origin, design, isClose));
                 break;
             case PT:
-                applyDisplayMetrics(resources, new UnitHandler.PT(origin, design, false));
+                applyDisplayMetrics(resources, new UnitHandler.PT(origin, design, isClose));
                 break;
         }
     }
 
-    private static void applyDisplayMetrics(final Resources resources, final UnitHandler... handlers) {
-        for (UnitHandler handler : handlers) {
-            handler.apply(resources.getDisplayMetrics());
-            handler.apply(application.getResources().getDisplayMetrics());
-        }
-        applyOtherDisplayMetrics(resources, handlers);
+    private static void applyDisplayMetrics(final Resources resources, final UnitHandler handler) {
+        handler.apply(resources.getDisplayMetrics());
+        handler.apply(application.getResources().getDisplayMetrics());
+        applyOtherDisplayMetrics(resources, handler);
     }
 
 
@@ -133,7 +135,7 @@ public class CompatScreenUtil {
         }
     }
 
-    private static void applyOtherDisplayMetrics(final Resources resources, UnitHandler... handlers) {
+    private static void applyOtherDisplayMetrics(final Resources resources, UnitHandler handler) {
         if (sMetricsFields == null) {
             sMetricsFields = new ArrayList<>();
             Class<?> resCls = resources.getClass();
@@ -145,9 +147,7 @@ public class CompatScreenUtil {
                         DisplayMetrics tmpDm = getMetricsFromField(resources, field);
                         if (tmpDm != null) {
                             sMetricsFields.add(field);
-                            for (UnitHandler handler : handlers) {
-                                handler.apply(tmpDm);
-                            }
+                            handler.apply(tmpDm);
                         }
                     }
                 }
@@ -159,18 +159,16 @@ public class CompatScreenUtil {
                 }
             }
         } else {
-            applyMetricsFields(resources, handlers);
+            applyMetricsFields(resources, handler);
         }
     }
 
-    private static void applyMetricsFields(final Resources resources, UnitHandler... handlers) {
+    private static void applyMetricsFields(final Resources resources, UnitHandler handler) {
         for (Field metricsField : sMetricsFields) {
             try {
                 DisplayMetrics dm = (DisplayMetrics) metricsField.get(resources);
                 if (dm != null) {
-                    for (UnitHandler handler : handlers) {
-                        handler.apply(dm);
-                    }
+                    handler.apply(dm);
                 }
             } catch (Exception e) {
                 Log.e("CompatScreenUtil", "applyMetricsFields: " + e);

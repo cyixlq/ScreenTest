@@ -1,13 +1,12 @@
 package com.example.screentest
 
+import android.content.Intent
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.screentest.utils.CompatScreenUtil
-import com.example.screentest.utils.Unit
+import com.example.screentest.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseCompatScreenActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,13 +18,17 @@ class MainActivity : AppCompatActivity() {
             |屏幕宽：${px2dp(widthPx)}dp；屏幕高：${px2dp(heightPx + navBarHeight)}dp。
         """.trimMargin()
         screenInfo.text = info
+        screenInfo.setOnClickListener {
+            startActivity(Intent(this, TestTextSizeActivity::class.java))
+        }
+        val msg = """
+            ${resources.displayMetrics.density} : ${resources.displayMetrics.scaledDensity}
+            ${Resources.getSystem().displayMetrics.density} : ${Resources.getSystem().displayMetrics.scaledDensity}
+        """.trimIndent()
+        ToastUtils.toastShort(msg)
     }
 
     private fun px2dp(px: Int): Int {
         return (px / resources.displayMetrics.density).toInt()
-    }
-
-    override fun getResources(): Resources {
-        return CompatScreenUtil.compatWidth(super.getResources(), 411, Unit.DP)
     }
 }

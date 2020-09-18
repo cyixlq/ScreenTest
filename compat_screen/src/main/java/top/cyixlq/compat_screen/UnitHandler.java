@@ -1,4 +1,4 @@
-package com.example.screentest.utils;
+package top.cyixlq.compat_screen;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -45,8 +45,11 @@ public abstract class UnitHandler {
                 dm.densityDpi = Resources.getSystem().getDisplayMetrics().densityDpi;
             } else {
                 final float targetDensity = (float) origin / design;
-                dm.scaledDensity = targetDensity * (dm.scaledDensity / dm.density);
+                //dm.scaledDensity = targetDensity * (dm.scaledDensity / dm.density);
+                final float sysDensity = Resources.getSystem().getDisplayMetrics().density;
+                final float sysScaledDensity = Resources.getSystem().getDisplayMetrics().scaledDensity;
                 dm.density = targetDensity;
+                dm.scaledDensity = targetDensity * (sysScaledDensity / sysDensity);
                 dm.densityDpi = (int) targetDensity * 160;
             }
         }
