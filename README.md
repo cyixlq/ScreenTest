@@ -6,7 +6,7 @@
 ### 使用方法
 0. 将compat_screen作为library导入到主工程的依赖中
 1. 使用方法
-1.1 按照宽度这一维度适配，在Activity中重写getResources方法，如下所示
+1.1. 按照宽度这一维度适配，在Activity中重写getResources方法，如下所示
 ```
 @Override
 public Resources getResources() {
@@ -24,10 +24,10 @@ public Resources getResources() {
 ```
 现在蓝湖上基本都可以切换单位显示，直接按照上面转换后的单位填，只要不是设计师标注错误，一般都没问题。
 
-1.2 如果需要以高度这一维度适配那么请使用CompatScreenUtil.compatHeight(super.getResources(), 411, Unit.DP);
+1.2. 如果需要以高度这一维度适配那么请使用CompatScreenUtil.compatHeight(super.getResources(), 411, Unit.DP);
 
 2. 关闭某个页面的适配
-2.1 全部适配单位都关闭：
+2.1. 全部适配单位都关闭：
 ```
 @Override
 public Resources getResources() {
@@ -35,7 +35,7 @@ public Resources getResources() {
     return CompatScreenUtil.closeCompat();
 }
 ```
-2.2 关闭某一单位的适配，例如关闭PT适配:
+2.2. 关闭某一单位的适配，例如关闭PT适配:
 ```
 @Override
 public Resources getResources() {
