@@ -4,9 +4,9 @@
 可以选择针对pt适配还是dp适配。
 原库地址：https://github.com/Blankj/AndroidUtilCode/blob/1079a0392d/lib/utilcode/src/main/java/com/blankj/utilcode/util/AdaptScreenUtils.java
 ### 使用方法
-0. 将compat_screen作为library导入到主工程的依赖中
+0. 将compat_screen作为library导入到主工程的依赖中<br/>
 1. 使用方法<br/>
-1.1. 按照宽度这一维度适配，在Activity中重写getResources方法，如下所示
+- 按照宽度这一维度适配，在Activity中重写getResources方法，如下所示
 ```
 @Override
 public Resources getResources() {
@@ -23,10 +23,10 @@ public Resources getResources() {
 }
 ```
 现在蓝湖上基本都可以切换单位显示，直接按照上面转换后的单位填，只要不是设计师标注错误，一般都没问题。<br/>
-1.2. 如果需要以高度这一维度适配那么请使用CompatScreenUtil.compatHeight(super.getResources(), 411, Unit.DP);
+- 如果需要以高度这一维度适配那么请使用CompatScreenUtil.compatHeight(super.getResources(), 411, Unit.DP);
 
 2. 关闭某个页面的适配<br/>
-2.1. 全部适配单位都关闭：
+- 全部适配单位都关闭：
 ```
 @Override
 public Resources getResources() {
@@ -34,7 +34,7 @@ public Resources getResources() {
     return CompatScreenUtil.closeCompat();
 }
 ```
-2.2. 关闭某一单位的适配，例如关闭PT适配:
+- 关闭某一单位的适配，例如关闭PT适配:
 ```
 @Override
 public Resources getResources() {
