@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import com.example.screentest.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_main.*
+import top.cyixlq.compat_screen.CompatScreenUtil
 
 class MainActivity : BaseCompatScreenActivity() {
 
